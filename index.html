@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <canvas id="stars"></canvas>
+    <h1 id="title1" class="orange title">mgoose.com</h1>
+    <button id="menu"></button>
+    <div id="menuelement">
+        <button class="menu_btns" id="top_menu_btn" onclick="alert(`you're already here lol`)">Home</button>
+        <button class="menu_btns" onclick="Page('about.html')">About Me</button>
+        <button class="menu_btns">Business</button>
+        <button class="menu_btns">Learn Some Stuff</button>
+    </div>
+    <div class="blocks">
+        <div class="row1 blockrow">
+            <button class="home_page_projects left" id="project1">project 1</button>
+            <button class="home_page_projects right" id="project2">project 2</button>
+        </div>
+        <div class="row2 blockrow">
+            <button class="home_page_projects left" id="project3">project 3</button>
+            <button class="home_page_projects right" id="project4">project 4</button>
+        </div>
+        <div class="row3 blockrow">
+            <button class="home_page_projects left" id="project5">project 5</button>
+            <button class="home_page_projects right" id="project6">project 6</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+.menu_btns {
+    color: white;
+    font-size: 6vh;
+    margin-bottom: 10vh;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    cursor: pointer;
+}
+
+#menuelement {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+#menu {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: white;
+    font-size: 3vh;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+    width: 8vh;
+    height: 8vh;
+    background-image: url('images/menu-icon-png-3-lines-11552739317jfnbfzzmez-removebg-preview.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 100;
+}
+html, body {
+    background: linear-gradient(to bottom, rgb(15, 15, 35), rgb(0, 0, 15), rgb(15, 15, 35));
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+}
+
+.orange {
+    color: orange;
+}
+
+.title {
+    position: relative;
+    text-align: center;
+    margin-top: 8.5vh;
+    margin-bottom: 15vh;
+    font-size: 8.5vh;
+    z-index: 1;
+    text-shadow:
+    0 4px 16px rgba(255, 140, 26, 0.35),
+    0 0 4px rgba(255, 140, 26, 0.6);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.blocks {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.blockrow {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10vh;
+    transition: all 0.4s ease;
+}
+
+.blockrow.centered {
+    justify-content: center;
+    gap: 5vw;
+}
+
+.blockrow.edges {
+    justify-content: space-between;
+}
+
+.blockrow.edges .left {
+    margin-left: 3vw;
+}
+
+.blockrow.edges .right {
+    margin-right: 3vw;
+}
+
+.home_page_projects {
+    width: 50vh;
+    height: 65vh;
+    border-radius: 7%;
+}
+</style>
+
+<script>
+let menu_opened = false;
+const menuelem = document.getElementById("menuelement");
+const rows = document.querySelectorAll(".blockrow");
+
+function updateBlocks() {
+    rows.forEach(row => {
+        if (menu_opened) {
+            row.classList.remove("centered");
+            row.classList.add("edges");
+        } else {
+            row.classList.remove("edges");
+            row.classList.add("centered");
+        }
+    });
+    menuelem.style.display = menu_opened ? "block" : "none";
+}
+
+document.getElementById("menu").addEventListener("click", () => {
+    menu_opened = !menu_opened;
+    updateBlocks();
+});
+
+updateBlocks();
+
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let scrollY = 0;
+window.addEventListener("scroll", () => { scrollY = window.scrollY; });
+
+const starColors = [
+    "rgb(155,176,255)",
+    "rgb(160,180,255)",
+    "rgb(165,185,255)",
+    "rgb(170,190,255)",
+    "rgb(175,195,255)",
+    "rgb(180,200,255)",
+    "rgb(185,205,255)",
+    "rgb(190,210,255)",
+    "rgb(195,215,255)",
+    "rgb(200,220,255)",
+    "rgb(205,225,255)",
+    "rgb(210,230,255)",
+    "rgb(215,235,255)",
+    "rgb(220,240,255)",
+    "rgb(225,245,255)",
+    "rgb(230,250,255)",
+    "rgb(235,245,230)",
+    "rgb(240,240,220)",
+    "rgb(245,235,200)",
+    "rgb(250,225,180)",
+    "rgb(255,220,170)",
+    "rgb(255,210,150)",
+    "rgb(255,200,130)",
+    "rgb(255,190,110)",
+    "rgb(255,180,100)",
+    "rgb(255,170,90)",
+    "rgb(255,160,80)",
+    "rgb(255,150,70)",
+    "rgb(255,140,60)",
+    "rgb(255,120,50)",
+    "rgb(255,90,40)"
+];
+
+const stars = Array.from({ length: 300 }, () => {
+    const r = Math.random() * 3 + 0.5;
+    return {
+        x: Math.random() * canvas.width,
+        y: (Math.random() * (document.body.scrollHeight * 2)) - (document.body.scrollHeight * 0.5),
+        radius: r,
+        speed: r * 0.1 + 0.1,
+        color: starColors[Math.floor(Math.random() * starColors.length)]
+    };
+});
+
+function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const star of stars) {
+        const screenY = star.y - scrollY * (0.3 + star.radius / 2);
+
+        if (screenY >= 0 && screenY <= canvas.height) {
+            ctx.beginPath();
+            ctx.arc(star.x, screenY, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = star.color;
+            ctx.fill();
+        }
+
+        star.x += star.speed;
+
+        if (star.x > canvas.width) {
+            star.x = 0;
+        }
+    }
+
+    requestAnimationFrame(animateStars);
+}
+
+animateStars();
+
+function addStar() {
+    const r = Math.random() * 3 + 0.5;
+    stars.push({
+        x: 0,
+        y: (Math.random() * (document.body.scrollHeight * 2)) - (document.body.scrollHeight * 0.5),
+        radius: r,
+        speed: r * 0.1 + 0.1,
+        color: starColors[Math.floor(Math.random() * starColors.length)]
+    });
+}
+
+setInterval(addStar, 200);
+
+function Page(page) {
+    window.location.href = page;
+}
+
+window.addEventListener("resize", () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+</script>
