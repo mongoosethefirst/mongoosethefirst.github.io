@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 <body>
     <canvas id="stars"></canvas>
     <h1 id="title1" class="orange title">mgoose.com</h1>
@@ -7,31 +10,65 @@
     <div id="menuelement">
         <button class="menu_btns" id="top_menu_btn" onclick="alert(`you're already here lol`)">Home</button>
         <button class="menu_btns" onclick="Page('about.html')">About Me</button>
-        <button class="menu_btns">Business</button>
-        <button class="menu_btns">Learn Some Stuff</button>
+        <button class="menu_btns" onclick="Page('business.html')">Business</button>
+        <button class="menu_btns" onclick="Page('learn.html')">Learn Some Stuff</button>
     </div>
     <div class="blocks">
         <div class="row1 blockrow">
-            <button class="home_page_projects left" id="project1">project 1</button>
-            <button class="home_page_projects right" id="project2">project 2</button>
+            <button class="home_page_projects left" id="project1">
+                <span>CYOA<br><br></span>
+            </button>
+            <button class="home_page_projects right" id="project2">
+                <span>project 2</span>
+            </button>
         </div>
         <div class="row2 blockrow">
-            <button class="home_page_projects left" id="project3">project 3</button>
-            <button class="home_page_projects right" id="project4">project 4</button>
+            <button class="home_page_projects left" id="project3">
+                <span>project 3</span>
+            </button>
+            <button class="home_page_projects right" id="project4">
+                <span>project 4</span>
+            </button>
         </div>
         <div class="row3 blockrow">
-            <button class="home_page_projects left" id="project5">project 5</button>
-            <button class="home_page_projects right" id="project6">project 6</button>
+            <button class="home_page_projects left" id="project5">
+                <span>project 5</span>
+            </button>
+            <button class="home_page_projects right" id="project6">
+                <span>project 6</span>
+            </button>
         </div>
     </div>
 </body>
 </html>
 
 <style>
+#project1 {
+    background: none;
+    background-image: url('cyoa.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 100;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: 5vh;
+    border: 2px solid whitesmoke;
+    padding: 0;
+    cursor: pointer;
+}
+.blocks span {
+    text-shadow:
+        -2px -2px 0 black,
+         2px -2px 0 black,
+        -2px  2px 0 black,
+         2px  2px 0 black;
+}
 .menu_btns {
     color: white;
-    font-size: 6vh;
-    margin-bottom: 10vh;
+    font-size: 5vh;
+    margin-bottom: 8vh;
     background: none;
     border: none;
     display: flex;
@@ -42,7 +79,7 @@
 
 #menuelement {
     position: fixed;
-    top: 60%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
@@ -60,7 +97,7 @@
     left: 5vh;
     width: 8vh;
     height: 8vh;
-    background-image: url('menu_button');
+    background-image: url('menu_button.png');
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 100;
@@ -205,7 +242,7 @@ const starColors = [
     "rgb(255,90,40)"
 ];
 
-const stars = Array.from({ length: 300 }, () => {
+const stars = Array.from({ length: 500 }, () => {
     const r = Math.random() * 3 + 0.5;
     return {
         x: Math.random() * canvas.width,
@@ -244,7 +281,7 @@ animateStars();
 function addStar() {
     const r = Math.random() * 3 + 0.5;
     stars.push({
-        x: 0,
+        x: -10,
         y: (Math.random() * (document.body.scrollHeight * 2)) - (document.body.scrollHeight * 0.5),
         radius: r,
         speed: r * 0.1 + 0.1,
